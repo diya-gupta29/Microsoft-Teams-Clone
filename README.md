@@ -35,10 +35,9 @@ python3 -m venv myenv
 source myenv/bin/activate
 ```
 
-### Clone the repo and Install Requirements
+### Install Requirements
 ```bash
-git clone 
-cd base_auth_final
+cd Microsoft-Teams-Clone
 pip install -r requirements.txt
 ```
 ### Make Changes in the settings.py file
