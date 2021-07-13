@@ -20,7 +20,6 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'base_auth_final.settings')
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
-    # Just HTTP for now. (We can add other protocols later.)
     "websocket": AllowedHostsOriginValidator(
         AuthMiddlewareStack(
         URLRouter(
@@ -30,12 +29,3 @@ application = ProtocolTypeRouter({
     ),
     ),
 })
-
-
-# import os
-# import django
-# from channels.routing import get_default_application
-
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE","base_auth_final.settings")
-# django.setup()
-# application = get_default_application()
