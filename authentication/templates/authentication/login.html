@@ -1,0 +1,58 @@
+{% extends 'authentication/base.html' %}
+{% load socialaccount %}
+{% load static %}
+{% block title %}<title>Sign In</title>{% endblock title %}
+{% block mycss %}
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content= "556039925162-c2a27uadh1off8jf0j16mgolk0783cve.apps.googleusercontent.com">
+
+{% endblock mycss %}
+{% block main-content %}
+<div class="layout">
+    <div class="main order-md-2">
+        <div class="start">
+            <div class="container">
+                <div class="col-md-12">
+                    <div class="content">
+                        <h1>Sign In to Teams</h1>
+                        <form action="" method="post" novalidate class="p-5" style="box-shadow:  -3px -2px 1px 0 #f1ecec,-4px -2px 20px 0 rgb(80, 88, 94);">
+                            {% if messages %}
+                            {% for message in messages %}
+                            <p {% if message.tags %} class = "alert alert -{{message.tags}} mb-5" style = "background-color: #ad979d; color:black"{% endif %}>{{message}}</p>
+                            {% endfor %}
+                            {% endif %}
+                            {% csrf_token %}
+                            {% for fm in form %} 
+                            <div class="mb-2">
+                            {{fm.label_tag}}{{fm}}<small class="text-danger">{{fm.errors|striptags}}</small>
+                            </div>
+                            {% endfor %}
+                            <small><a href="{% url 'auth:password_reset' %}">Forgot Password ?</a></small><br><br>
+                            <input type = "submit" value="Submit" class="btn button" style="size: 15">
+                            <br><br>
+                            <div class="text-center text-primary fw-bold"><small>New User ? <a href="{% url 'auth:reg' %}"
+                                class="text-danger">Create an Account</a> </small></div>
+                            {% if form.non_field_errors %}
+                            {% for error in form.non_field_errors %}
+                            <p class="alert alert-danger my-3">{{error}}</p>
+                            {% endfor %}
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>            
+    <div class="aside order-md-1">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="preference">
+                    <h2>Welcome Back!</h2>
+                    <p>To keep connected please register with your info.</p>
+                    <a href="{% url 'auth:reg' %}" class="btn button">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main-content %}

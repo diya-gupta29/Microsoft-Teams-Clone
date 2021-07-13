@@ -1,0 +1,35 @@
+{% extends 'createTeams/base.html' %}
+{% load static %}
+{% block title %}<title>Change Status</title>{% endblock title %}
+{% block main-content %}
+<div class="wrapper fadeInDown" style="padding-top:10%;">
+    <div id="formContent" style="box-shadow:  -3px -2px 1px 0 #f1ecec,-4px -2px 20px 0 rgb(80, 88, 94); ">
+    <h1 style="color: white"> Change Status </h1>
+  <form method="post" >
+    {% csrf_token %}
+    
+    <label for="team_members" style="color: white; font-size: 25px">Team members:</label><br />
+    <div id="team_members" multiple="true" name="checks" style="color:black; font-size: 18px"></div>
+    <br />
+    <input type="submit" class = "fadeIn" value="Change status to admin"><br />
+    {% if warning%} {{warning}} {% endif %}
+  </form>
+  </div>
+  </div>
+  <script>
+    var ids = [];
+    var names = [];
+    var admin = [];
+    var user_id="{{user.id}}";
+    ("{% for membership in memberships %}");
+    ids.push("{{membership.user.id}}");
+    names.push("{{membership.user}}");
+    admin.push("{{membership.role}}");
+    
+    console.log(ids);
+    console.log(names);
+    console.log(admin);
+    ("{% endfor %}");
+  </script>
+  <script src="{% static 'js/create_team.js' %}"></script>
+{% endblock main-content %}

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+		<meta charset="utf-8">
+		<title>View Team</title>
+		<meta name="description" content="#">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link href="{% static 'dist/css/lib/bootstrap.min.css' %}" type="text/css" rel="stylesheet">
+		<link href="{% static 'dist/css/swipe.min.css' %}" type="text/css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+        
+        <style>
+            .material-icons{
+                color: #242325;
+                font-size: 30px !important;
+            }
+            .material-icons:hover{
+                color:  #2196F3;
+            }
+            .navigation .container{
+                padding-right: 10px;
+                margin-right: 0px;
+                margin: 0px;
+            }
+            hr{
+                background-color: black !important;
+            }
+            .text-group{
+                color: black;
+            }
+            .icon-cg{
+                color: #242325;
+            }
+        </style>
+</head>
+<body>
+<main>
+<div class="layout">
+    <div class="navigation"style="background-color: rgb(248,248,248);box-shadow:  -3px -2px 1px 0 #f1ecec,-4px -2px 20px 0 rgb(115, 118, 121);" >
+        <div class="container" >
+            <div class="inside" >
+                <div class="nav nav-tab menu" >
+                    
+                    
+                    <a href="{% url 'createTeams:new_team' %}" title = "create new team"><i class="fas fa-plus-square material-icons"></i></a>
+                    <a href="{% url 'createTeams:display_teams' %}" data-target="#"  class="f-grow1" title="show teams"><i class="fas fa-users material-icons" ></i></a>
+                    
+                    <a href="{% url 'auth:pwdchange' %}" title="change password"><i class="fas fa-unlock material-icons"></i></a>
+                    <a href="{% url 'auth:logout' %}" title="sign-out"><i class="material-icons">power_settings_new</i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+<div class="sidebar" id="sidebar" style="background-color: rgb(226, 224, 224)">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="tab-content">
+                <div id="discussions" class="tab-pane fade active show">
+                    <div class="search">
+                        <a href="{% url 'createTeams:display_teams' %}"><h2 style="color: #242325;margin-left: 0%;margin-top: 2%;font-size:20px;font-weight:bold"><i class="fas fa-angle-double-left"></i> All Teams</h2></a>
+                        {% ifequal user_role 1 %}
+                        <a href="{% url 'createTeams:add_members' org.id %}"><button class="btn create" data-toggle="modal" data-target="#startnewchat" title = "Add members"><i class="fas fa-user-plus"></i></button></a>
+                        {% else %}
+                        <button class="btn create" data-toggle="modal" data-target="#startnewchat" title="Access granted to owners only"><i class="fas fa-user-plus"></i></button>
+                        {% endifequal %}
+                    </div>					
+                    <div class="discussions">
+                        <i class="fas fa-users fa-6x icon-cg"></i><h1>{{org.name}}{% if org.parent_org is not null %}-<a href="{% url 'createTeams:view_team' org.parent_org.id %}">{{org.parent_org.name}}{% endif %}</a></h1>
+                        <div class="list-group" id="chats" role="tablist">
+                            {% for channel in channels %}
+                            <a href="{% url 'createTeams:view_team' channel.id %}" class="filterDiscussions all unread single active" id="list-chat-list" >
+                                
+                                <div class="data">
+                                    <h5>{{channel.name}}</h5>
+                                </div>
+                            </a>
+                            {% endfor %}										
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>  
+<div class="main" style="background: rgb(223, 223, 223);">
+    <div class="tab-content" id="nav-tabContent" style="width: 100%; background: rgb(223, 223, 223)">
+        <div class="babble tab-pane fade active show" id="list-chat" role="tabpanel" aria-labelledby="list-chat-list">
+            <div class="chat" id="chat1" style="background: rgb(223, 223, 223)">
+                <div class="top" style="background: rgb(223, 223, 223)">
+                    <div class="container" >
+                        <div class="col">
+                            <div class="inside">
+                                <div class="data">
+                                    <h4 style="color:black;">{{org.name}}</h4>
+                                    <span>{{org.description}}</span>
+                                </div>
+                                <a href="{% url 'createTeams:send_invite' org.id %}"><button id = "video_btn" class="btn connect d-md-block d-none" name="1" title="video call"><i class="material-icons md-36">videocam</i></button></a>
+                                <div class="dropdown">
+                                    <button class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a href="{% url 'createTeams:send_invite' org.id %}"><button class="dropdown-item connect" name="1"><i class="material-icons">videocam</i>Video Call</button></a>
+                                        <a href="{% url 'createTeams:leave_team' org.id %}"><button class="dropdown-item"><i class="material-icons">block</i>Leave Team</button></a>
+                                        <hr>
+                                        {% ifequal user_role 1 %}
+                                        <a href="{% url 'createTeams:add_members' org.id %}"><button class="dropdown-item connect" name="1"><i class="fas fa-user-plus material-icons"></i>Add member</button></a>
+                                        <a href="{% url 'createTeams:create_team' org.id %}"><button class="dropdown-item"><i class="fas fa-plus-square material-icons"></i>Add Channel</button></a>
+                                        <a href="{% url 'createTeams:edit_team' org.id %}"><button class="dropdown-item"><i class="fas fa-edit material-icons"></i> Edit Team</button></a>
+                                        <a href="{% url 'createTeams:change_role' org.id %}"><button class="dropdown-item"><i class="fas fa-user-shield material-icons"></i>Make members as admins</button></a>
+                                        <a href="{% url 'createTeams:dismiss_admin' org.id %}"><button class="dropdown-item"><i class="fas fa-user material-icons"></i> Remove Owners</button></a>
+                                        <a href="{% url 'createTeams:delete_team' org.id %}"><button class="dropdown-item"><i class="fas fa-trash material-icons"></i> Delete Team</button></a>                                        
+                                        {% endifequal %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content" id="content">
+                    <div class="container">
+                        <div id="message_chat_container" class="col-md-12">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="col-md-12">
+                        <div class="bottom">
+                            <div class="position-relative w-100">
+                                <div contenteditable="true" class="form-control" name="chat-message-input" id = "chat-message-input" placeholder="Start typing for reply..." rows="1"></div>
+                                <button type="submit" id = "chat-message-submit" class="btn send" title="send"><i class="material-icons">send</i></button>
+                            </div>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>        
+</div>
+</main>
+<script src = "{% static 'js/reconnecting-websocket.js' %}"></script>
+    <script>
+        var user_name = '{{user.username}}'
+        const room_id = '{{org.id}}'
+
+        const chatSocket = new ReconnectingWebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/createTeams/view_team/'
+            + room_id
+            + '/'
+        );
+        chatSocket.onopen = function(e){
+            fetchMessages();
+        }
+
+        chatSocket.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            if(data['command'] === 'messages'){
+                for(let i=0;i<data['messages'].length;i++){
+                    createMessage(data['messages'][i]);
+                }
+            }
+            else if (data['command'] === 'new_message'){
+                createMessage(data['message']);
+            }       
+        };
+
+        function createMessage(data)
+        {
+            var author = data['user']
+            var spantag = document.createElement('span');
+            var divtext = document.createElement('div');
+            var divtextgroup = document.createElement('div');
+            var divtextmain = document.createElement('div');
+            var divmessage = document.createElement('div');
+            var ptag = document.createElement('p');
+            var atag = document.createElement('a');
+            ptag.textContent = data.content;
+            divtextmain.className = "text-main";
+            if(author == user_name){
+                divtext.className = "text me";
+                divtextgroup.className = "text-group me";
+                divmessage.className = "message me";
+            }
+            else{
+                divtext.className = "text";
+                divtextgroup.className = "text-group";
+                divmessage.className = "message";
+                spantag.textContent = author;
+                divtext.appendChild(spantag);
+            }
+            
+            divtext.appendChild(ptag);
+            divtextgroup.appendChild(divtext);
+            divtextmain.appendChild(divtextgroup);
+            divmessage.appendChild(divtextmain);
+            document.querySelector('#message_chat_container').appendChild(divmessage);
+        }
+
+        function fetchMessages(){
+            chatSocket.send(JSON.stringify({'command':'fetch_messages','room_id': room_id}));
+        }
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.textContent;
+            console.log("message:",message)
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'command':'new_message',
+                'from': user_name,
+                'room_id': room_id
+            }));
+            messageInputDom.textContent = '';
+        };
+    </script>
+
+    <!--  <script type="text/javascript">
+    $('#video_btn').click(function(){
+    var orgid;
+    orgid = $(this).attr("data-orgid");
+
+    $.ajax(
+    {
+        type:"GET",
+        url: "{% url 'createTeams:send_invite' org.id %}",
+        data:{
+                 'org_id': orgid,
+        },
+        dataType: 'json',
+        success: function( data ) 
+        {
+            $( '#chat-message-input' ).val(data.redirect);
+            $('#chat-message-submit').click();
+            alert(data)
+            window.location.href = data.redirect;
+        }
+    })
+});
+</script> -->
+<!-- Bootstrap core JavaScript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="{% static 'dist/js/jquery-3.3.1.slim.min.js' %}" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script>window.jQuery || document.write('<script src="{% static "dist/js/vendor/jquery-slim.min.js" %}"><\/script>')</script>
+		<script src="{% static 'dist/js/vendor/popper.min.js' %}"></script>
+        <script src="{% static 'dist/js/bootstrap.min.js' %}"></script>
+        <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+</body>
+</html>

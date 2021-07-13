@@ -1,0 +1,71 @@
+.main {
+  margin-right: 300px; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+  font-family: "Varela Round";
+  background-color: #000;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+.navbar {
+background-color: #0f0f0f;
+  border-radius: 0px;
+  font-size: 1.75rem;
+  padding: 4px;
+}
+.nav {
+  font-size: 1.75rem;
+  padding: 4px;
+  font-weight: bold;
+  font-family: "Varela Round";
+}
+
+body {
+  font-family: "Varela Round";
+  font-weight: 580;
+  
+  opacity: 0.9;
+}
+h2 {
+  font-size: 46px;
+  text-align: left;
+  padding-left: 10px;
+  color: #57C0AB;
+  font-family: "Varela Round";
+}
+p {
+  font-size: 20px;
+  left: 0px;
+  padding-left: 10px;
+  color: #5EAE9B;
+  font-family: "Varela Round";
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
+  width: 150px;
+}
+
+.center2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 1500px;
+}
+.form-group {
+ width: 500px;
+ height: 50px;
+ margin: auto;
+ position: left;
+}
+
+
+

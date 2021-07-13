@@ -1,0 +1,44 @@
+{% extends 'createTeams/base.html' %}
+{% load static %}
+{% block title %}<title>Teams</title>{% endblock title %}
+{% block mycss %}
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet">
+<link rel="stylesheet" href="{% static '/css/cards.css' %}">
+<style>
+    .btnRight{
+        position: absolute;
+         bottom: 93%;
+         margin: auto;
+         right: 2%;
+     }
+</style>
+{% endblock mycss %}
+{% block main-content %}
+<div class="container-fluid">
+    <h2 style="color:black;margin-left: 10%;margin-top: 2%;font-size:20px;font-weight:bold">Teams</h2> 
+    <h2 style="color: black;font-size:20px;font-weight:bold;margin-left: 25%">Welcome {{username}}</h2> 
+    <a href="{% url 'createTeams:new_team' %}"><button class="btn btn-secondary btn-sm btnRight" style="background-color:white;color:black;font-weight:bold;box-shadow: 3px 3px 20px rgba(0, 0, 0, .5);width:10%">Create Team</button></a>
+<div class="d-flex flex-wrap" style="margin-left: 5%">
+    {% for team in teams %}
+<div class="col">
+<div class="blog-card spring-fever">
+    <hr>
+    <div class="title-content">
+      <h3>{{team.name}}</h3>
+    </div>
+    <hr>
+    <div class="utility-info">
+      <ul class="utility-list">
+        <a href="{% url 'createTeams:view_team' team.id %}"><li>View Team</li><i class="fas fa-angle-double-right"></i></a>
+        
+      </ul>
+    </div> 
+</div>
+</div>
+{% endfor %}
+
+  </div>
+</div>
+
+{% endblock main-content %}

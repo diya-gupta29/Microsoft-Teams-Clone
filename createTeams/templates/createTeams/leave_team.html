@@ -1,0 +1,31 @@
+{% extends 'createTeams/base.html' %}
+{% load static %}
+{% block title %}<title>Leave Team</title>{% endblock title %}
+{% block main-content %}
+<div class="wrapper fadeInDown" style="padding-top:10%;">
+  <div id="formContent" style="box-shadow:  -3px -2px 1px 0 #f1ecec,-4px -2px 20px 0 rgb(80, 88, 94);background-color: white;">
+    <h1 style="color: rgb(99, 87, 87);font-family:'Times New Roman', Times, serif; "> Leave Team </h1>
+    <form method="post" >
+      {% csrf_token %}
+      <br>
+      <h5 style="font-family:'Times New Roman', Times, serif; color: rgb(99, 87, 87) ">Are you sure you want to leave the  team {{team.name}} ?</h5><br><br>
+      <button class="fadeIn" type="submit" value="clicked_no" name="confirmation" style="color: rgb(99, 87, 87);margin-right: 2%;border-radius: 15px; width:20%">Cancel</button>
+      <button class="fadeIn" type="submit" value="clicked_yes" name="confirmation" style="border: round 2 !important; color: rgb(99, 87, 87);border-radius: 15px;">Leave Team</button><br><br>
+      {% if warning%} {{warning}} {% endif %}
+    </form>
+    </div>
+    </div>
+    <script>
+        function clicked_yes(){
+            console.log("clicked yes");
+        }
+        function clicked_no(var_id){
+          window.location.href="/createTeams/view_team/var_id";
+        }
+    </script>
+    <!-- {% if warning%} {{warning}} {% endif %}
+    <br>
+  
+  </div>
+  </div> -->
+{% endblock main-content %}

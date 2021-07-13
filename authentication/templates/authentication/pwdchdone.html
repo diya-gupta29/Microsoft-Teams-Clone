@@ -1,0 +1,32 @@
+{% extends 'authentication/base.html' %}
+{% load static %}
+{% block title %}<title>Password Change Complete</title>{% endblock title %}
+{% block main-content %}
+<div class="layout">
+    <div class="main order-md-2">
+        <div class="start">
+            <div class="container">
+                <div class="col-md-12">
+                    <div class="content" >
+                        <h3>Password Changed Successfully !!</h3><br>
+                        <div class="wishImg">
+                            <img src="{% static 'images/pwd_comp.gif' %}" width="330" height="270" style="align-items: center; padding-left: 10%;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="aside order-md-1">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="preference">
+                    <h2>Welcome Back!</h2>
+                    <p>To keep connected please login with your info.</p>
+                    <a href="{% url 'auth:login' %}" class="btn button">Sign In</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main-content %}
